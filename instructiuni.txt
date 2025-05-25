@@ -1,0 +1,217 @@
+Ce îi spui lui Cursor (instrucțiuni clare)
+Instrucțiuni pentru website-ul meu de gambling cu token Solana:
+
+Tehnologii folosite:
+
+HTML + CSS (sau TailwindCSS dacă vrei rapiditate)
+
+JavaScript simplu (sau React pentru dinamism dacă se cere)
+
+Imaginile sunt toate în /public/images
+
+Site-ul este Single Page Application (SPA), fără backend (interacțiunile reale se fac on-chain)
+
+Structura site-ului:
+
+diff
+Copy
+Edit
+- Hero section cu fundal neon + Joker (hero-joker-neon.png)
+- Subtext: “Double or nothing. Joker plays fair... almost.”
+- Buton “ROLL” (btn-roll.png)
+- Trei butoane: Telegram, Whitepaper, Buy Token (btn-telegram.png, btn-whitepaper.png, stake-solana-bag.png)
+- Secțiune "How It Works" cu imagine (flow-how-it-works.png)
+- Fundal general: bg-neon-casino.png
+Comportament & Interacțiuni:
+
+Toate butoanele sunt clickabile:
+
+Telegram → deschide link: https://t.me/YOUR_GROUP
+
+Whitepaper → deschide PDF: /whitepaper.pdf
+
+Buy Token → duce către Raydium sau Jupiter presale
+
+Butonul “ROLL” trebuie să simuleze un efect (glow, shake) și să aleagă un rezultat random (YOU WIN! / YOU LOSE!)
+
+Afișează rezultatul într-un pop-up sau sub buton
+
+(La MVP nu conectăm wallet, e doar frontend)
+
+Design:
+
+Font: ceva meme/graffiti style (ex: Bungee, Rubik Doodle Shadow)
+
+Culori dominante: violet, neon orange, verde toxic
+
+Responsive pe mobil
+
+Folosește clase clare: .hero, .button, .flow, .popup, etc.
+
+Imagini de folosit din /public/images/:
+
+scss
+Copy
+Edit
+bg-neon-casino.png       → Fundal site
+hero-joker-neon.png      → Joker în hero section
+btn-roll.png             → Buton de "ROLL"
+btn-telegram.png         → Buton Telegram
+btn-whitepaper.png       → Buton Whitepaper
+stake-solana-bag.png     → Buton "Buy Token"
+flow-how-it-works.png    → Infografic “How It Works”
+joker-token-hand.png     → (opțional) pe hover la ROLL
+Extra:
+
+Adaugă un efect vizual de genul:
+
+js
+Copy
+Edit
+setTimeout(() => {
+  const outcome = Math.random() > 0.5 ? 'YOU WIN!' : 'YOU LOSE!';
+  alert(outcome);
+}, 700);
+Dacă e în React, fă useState pentru rezultat și onClick pe ROLL.
+
+✅ STRUCTURA FINALĂ
+bash
+Copy
+Edit
+project-root/
+├── index.html
+├── style.css
+├── script.js
+└── /images
+     ├── bg-neon-casino.png
+     ├── hero-joker-neon.png
+     ├── btn-roll.png
+     ├── btn-telegram.png
+     ├── btn-whitepaper.png
+     ├── stake-solana-bag.png
+     ├── flow-how-it-works.png
+     └── joker-token-hand.png
+🧾 1. index.html
+html
+Copy
+Edit
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joker's Gamble</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <section class="hero">
+    <img src="images/hero-joker-neon.png" alt="Joker Hero" class="hero-img" />
+    <h1>$JOKER TOKEN</h1>
+    <p>Double or nothing. Joker plays fair... almost.</p>
+    <button id="roll-btn">
+      <img src="images/btn-roll.png" alt="ROLL" />
+    </button>
+    <div id="result" class="result"></div>
+  </section>
+
+  <section class="buttons">
+    <a href="https://t.me/YOURGROUP" target="_blank"><img src="images/btn-telegram.png" alt="Telegram" /></a>
+    <a href="/whitepaper.pdf" target="_blank"><img src="images/btn-whitepaper.png" alt="Whitepaper" /></a>
+    <a href="https://jup.ag/swap/SOL-JOKER" target="_blank"><img src="images/stake-solana-bag.png" alt="Buy Token" /></a>
+  </section>
+
+  <section class="how-it-works">
+    <h2>How It Works</h2>
+    <img src="images/flow-how-it-works.png" alt="Flow" />
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
+🎨 2. style.css
+css
+Copy
+Edit
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('images/bg-neon-casino.png') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  text-align: center;
+}
+
+.hero {
+  padding: 60px 20px;
+}
+
+.hero-img {
+  width: 300px;
+  max-width: 80%;
+}
+
+#roll-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#roll-btn img {
+  width: 120px;
+  transition: transform 0.2s ease;
+}
+
+#roll-btn:hover img {
+  transform: scale(1.1);
+}
+
+.buttons img {
+  height: 80px;
+  margin: 20px 10px;
+  transition: transform 0.2s ease;
+}
+
+.buttons img:hover {
+  transform: scale(1.05);
+}
+
+.how-it-works img {
+  width: 90%;
+  max-width: 800px;
+  margin-top: 30px;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+🎲 3. script.js
+javascript
+Copy
+Edit
+document.getElementById('roll-btn').addEventListener('click', () => {
+  const resultDiv = document.getElementById('result');
+  resultDiv.textContent = 'Rolling...';
+
+  setTimeout(() => {
+    const win = Math.random() > 0.5;
+    resultDiv.textContent = win ? '🎉 YOU WIN!' : '💀 YOU LOSE!';
+    resultDiv.style.color = win ? 'lime' : 'red';
+  }, 1000);
+});
+✅ Ce să faci acum:
+Creează aceste 3 fișiere în Cursor.
+
+Mută toate imaginile în images/.
+
+Rulează index.html local sau cu un live server (Live Preview, Go Live etc).
+
+Dacă vrei, îți dau acum tot ca fișier .zip cu totul gata pregătit. Vrei?
+
+
+you won video : https://crimson-traditional-mastodon-846.mypinata.cloud/ipfs/bafkreiehkoxoz47uxjxaafocebmvgotjzqaeldcpekj6tadjqxo5aegsyi
+
+you lost video : https://crimson-traditional-mastodon-846.mypinata.cloud/ipfs/bafkreiefyqauh2kwnlso45jmhzj26gr6h3pmpulegnjkplvinq72w42n4y
