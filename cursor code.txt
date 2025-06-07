@@ -1,0 +1,137 @@
+🧑‍💻 Cursor Code (React + CSS-based UI)
+Set up a basic MVP game in Cursor (React, using CSS instead of Tailwind):
+
+App.jsx
+jsx
+Copy
+Edit
+import { useState } from "react";
+import "./App.css";
+import jokerImg from "./assets/joker.png"; // add your Sora Joker here
+import coinImg from "./assets/coin.png"; // your $JOKER coin image
+
+export default function App() {
+  const [balance, setBalance] = useState(10000);
+  const [bet, setBet] = useState(0);
+  const [result, setResult] = useState(null);
+
+  const handlePlay = () => {
+    if (bet <= 0 || bet > balance) return;
+    const didWin = Math.random() < 0.5;
+    setBalance((prev) => prev + (didWin ? bet : -bet));
+    setResult(didWin ? "win" : "lose");
+  };
+
+  const resetGame = () => {
+    setBalance(10000);
+    setResult(null);
+    setBet(0);
+  };
+
+  return (
+    <div className="arena">
+      <h1>JOKER'S ARENA</h1>
+      <img src={jokerImg} alt="Joker" className="joker" />
+
+      <div className="balance">
+        Mock Wallet: <strong>{balance} $JOKER</strong>
+      </div>
+
+      <div className="buttons">
+        {[100, 500, 1000].map((amount) => (
+          <button key={amount} onClick={() => setBet(amount)}>
+            Bet {amount}
+          </button>
+        ))}
+      </div>
+
+      <button className="fight" onClick={handlePlay}>
+        FIGHT THE JOKER
+      </button>
+
+      {result && (
+        <div className={`result ${result}`}>
+          {result === "win" ? "🎉 YOU WIN!" : "💀 JOKER WINS!"}
+        </div>
+      )}
+
+      <button className="reset" onClick={resetGame}>
+        Reset Game
+      </button>
+    </div>
+  );
+}
+App.css
+css
+Copy
+Edit
+body {
+  background-color: #0f0f1a;
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.arena {
+  padding: 20px;
+}
+
+.joker {
+  width: 220px;
+  margin: 20px auto;
+}
+
+.balance {
+  font-size: 18px;
+  margin: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  background-color: #333;
+  border: 2px solid #4effa1;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.fight {
+  padding: 12px 25px;
+  background-color: #ff0055;
+  border: none;
+  font-size: 18px;
+  color: white;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.result.win {
+  color: #00ff88;
+}
+
+.result.lose {
+  color: #ff3344;
+}
+
+.reset {
+  margin-top: 20px;
+  background-color: #222;
+  color: #bbb;
+  padding: 8px 16px;
+  cursor: pointer;
+}
