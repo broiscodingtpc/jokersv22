@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import backToHome from "../assets/backtohome.png";
 import jokerIdle from "../assets/Main Joker Character (Idle Pose).png";
@@ -16,9 +16,18 @@ const mvpTexts = [
   "🎪 WELCOME TO THE JOKER'S ARENA!"
 ];
 
+// Constants
+const INITIAL_BALANCE = 10000;
+const MIN_BET = 100;
+const MAX_BET = 10000;
+const WIN_CHANCE = 0.5;
+const LOADING_TIME = 1500;
+const RESULT_DISPLAY_TIME = 2000;
+const POPUP_DISPLAY_TIME = 3000;
+
 export default function GamePage() {
   const navigate = useNavigate();
-  const [balance, setBalance] = useState(10000);
+  const [balance, setBalance] = useState(INITIAL_BALANCE);
   const [bet, setBet] = useState(0);
   const [jokerImage, setJokerImage] = useState(jokerIdle);
   const [showResult, setShowResult] = useState(false);
@@ -26,8 +35,6 @@ export default function GamePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [lastPlayTime, setLastPlayTime] = useState(0);
-  const COOLDOWN_TIME = 2000; // 2 seconds cooldown between plays
 
   const funnyMessages = {
     noMoney: [
@@ -56,145 +63,158 @@ export default function GamePage() {
     const messages = funnyMessages[type];
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
     setPopupMessage(randomMessage);
-    setTimeout(() => setPopupMessage(''), 3000);
+    setTimeout(() => setPopupMessage(''), POPUP_DISPLAY_TIME);
   };
 
-  const handlePlay = () => {
-    const now = Date.now();
-    
-    // Prevent rapid clicking
-    if (isProcessing || now - lastPlayTime < COOLDOWN_TIME) {
+  // Prevent multiple clicks
+  const handlePlay = useCallback(() => {
+    if (isProcessing || bet <= 0 || bet > balance) {
+      if (bet > balance) {
+        showPopup('noMoney');
+      }
       return;
     }
 
-    if (bet <= 0 || bet > balance) {
-      showPopup('noMoney');
-      return;
-    }
-    
     setIsProcessing(true);
-    setLastPlayTime(now);
     setIsLoading(true);
-    
-    // Simulate server delay for security
+
     setTimeout(() => {
-      const didWin = Math.random() < 0.5;
-      setBalance((prev) => prev + (didWin ? bet : -bet));
+      const didWin = Math.random() < WIN_CHANCE;
+      setBalance((prev) => {
+        const newBalance = prev + (didWin ? bet : -bet);
+        // Ensure balance doesn't go below 0
+        return Math.max(0, newBalance);
+      });
       setResult(didWin ? 'win' : 'lose');
       setShowResult(true);
       setIsLoading(false);
       showPopup(didWin ? 'win' : 'lose');
-      
+
       setTimeout(() => {
         setShowResult(false);
         setResult(null);
         setIsProcessing(false);
-      }, 2000);
-    }, 1500);
-  };
+      }, RESULT_DISPLAY_TIME);
+    }, LOADING_TIME);
+  }, [bet, balance, isProcessing]);
 
-  const resetGame = () => {
-    if (isProcessing) return;
-    
-    setBalance(10000);
-    setBet(0);
-    setJokerImage(jokerIdle);
-    setShowResult(false);
-    setResult(null);
-    showPopup('reset');
-  };
+  // Validate bet amount
+  const handleBet = useCallback((amount) => {
+    if (amount <= balance && amount >= MIN_BET && amount <= MAX_BET) {
+      setBet(amount);
+    }
+  }, [balance]);
 
-  // Prevent context menu
-  const handleContextMenu = (e) => {
-    e.preventDefault();
-  };
+  // Reset game with validation
+  const resetGame = useCallback(() => {
+    if (!isProcessing) {
+      setBalance(INITIAL_BALANCE);
+      setBet(0);
+      setResult(null);
+      setShowResult(false);
+      showPopup('reset');
+    }
+  }, [isProcessing]);
+
+  // Handle keyboard events
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === 'Escape') {
+        navigate('/');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [navigate]);
+
+  // Prevent accidental navigation
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isProcessing) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isProcessing]);
 
   return (
-    <div 
-      className="game-container prevent-context" 
-      onContextMenu={handleContextMenu}
-    >
+    <div className="game-page">
       <button className="back-to-home" onClick={() => navigate('/')}>
         <img src={backToHome} alt="Back to Home" />
       </button>
-      <div className="game-header">
-        <h1 className="no-select">JOKER'S ARENA</h1>
-        <div className="balance no-select">
-          Balance: <strong>{balance} $JOKER</strong>
+      <div className="game-container">
+        <div className="game-header">
+          <h1>JOKER'S ARENA</h1>
+          <div className="balance">
+            Balance: {balance.toLocaleString()} $JOKER
+          </div>
         </div>
-      </div>
 
-      <div className="game-content">
-        <img 
-          src={jokerImage} 
-          alt="Joker" 
-          className="joker-image no-select" 
-          draggable="false"
-        />
-        
-        <div className="bet-buttons">
-          {[100, 500, 1000].map((amount) => (
+        <div className="game-content">
+          <img src={jokerImage} alt="Joker" className="joker-image" />
+          
+          <div className="bet-buttons">
+            {[100, 500, 1000].map((amount) => (
+              <button
+                key={amount}
+                className={`bet-btn ${bet === amount ? 'active' : ''}`}
+                onClick={() => handleBet(amount)}
+              >
+                BET {amount}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ position: 'relative', width: '100%', maxWidth: '300px', margin: '20px auto', height: '80px' }}>
             <button
-              key={amount}
-              className={`bet-btn ${bet === amount ? 'active' : ''} ${isProcessing ? 'interaction-disabled' : ''}`}
-              onClick={() => !isProcessing && setBet(amount)}
-              disabled={isProcessing}
+              className="fight-button"
+              onClick={handlePlay}
+              disabled={bet <= 0 || bet > balance || showResult || isLoading}
+              style={{ display: (showResult || isLoading) ? 'none' : 'block' }}
             >
-              BET {amount}
+              FIGHT THE JOKER
             </button>
-          ))}
-        </div>
+            {isLoading && (
+              <div className="loading-effect">
+                <div className="loading-text">JOKER THINKING...</div>
+              </div>
+            )}
+            {showResult && (
+              <div className="result-popup">
+                <img 
+                  src={result === 'win' ? winPopup : losePopup} 
+                  alt={result === 'win' ? 'You Win!' : 'Joker Wins!'} 
+                />
+              </div>
+            )}
+          </div>
 
-        <div style={{ position: 'relative', width: '100%', maxWidth: '300px', margin: '20px auto', height: '80px' }}>
-          <button
-            className={`fight-button ${isProcessing ? 'interaction-disabled' : ''}`}
-            onClick={handlePlay}
-            disabled={bet <= 0 || bet > balance || showResult || isLoading || isProcessing}
-            style={{ display: (showResult || isLoading) ? 'none' : 'block' }}
-          >
-            FIGHT THE JOKER
+          <button className="reset-btn" onClick={resetGame}>
+            RESET GAME
           </button>
-          {isLoading && (
-            <div className="loading-effect">
-              <div className="loading-text">JOKER THINKING...</div>
-            </div>
-          )}
-          {showResult && (
-            <div className="result-popup">
-              <img 
-                src={result === 'win' ? winPopup : losePopup} 
-                alt={result === 'win' ? 'You Win!' : 'Joker Wins!'} 
-                draggable="false"
-              />
-            </div>
-          )}
         </div>
 
-        <button 
-          className={`reset-btn ${isProcessing ? 'interaction-disabled' : ''}`}
-          onClick={resetGame}
-          disabled={isProcessing}
-        >
-          RESET GAME
-        </button>
+        <div className="mvp-info">
+          <div className="ticker-container">
+            {mvpTexts.map((text, index) => (
+              <p key={index}>{text}</p>
+            ))}
+            {mvpTexts.map((text, index) => (
+              <p key={`duplicate-${index}`}>{text}</p>
+            ))}
+          </div>
+        </div>
+
+        {popupMessage && (
+          <div className="funny-popup">
+            {popupMessage}
+          </div>
+        )}
       </div>
-
-      <div className="mvp-info">
-        <div className="ticker-container">
-          {mvpTexts.map((text, index) => (
-            <p key={index}>{text}</p>
-          ))}
-          {mvpTexts.map((text, index) => (
-            <p key={`duplicate-${index}`}>{text}</p>
-          ))}
-        </div>
-      </div>
-
-      {popupMessage && (
-        <div className="funny-popup no-select">
-          {popupMessage}
-        </div>
-      )}
     </div>
   );
 } 
