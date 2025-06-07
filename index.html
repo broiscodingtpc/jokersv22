@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joker's Arena - Double or Nothing</title>
+    <link rel="icon" type="image/png" href="public/images/favicon.png">
+    <link rel="stylesheet" href="public/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Background Image -->
+        <img src="public/images/bg-neon-casino.png" alt="Background" class="background-image">
+        
+        <!-- Background Video (hidden by default) -->
+        <video id="backgroundVideo" class="background-video" loop muted>
+            <source src="https://crimson-traditional-mastodon-846.mypinata.cloud/ipfs/bafybeibmzjfwdglgapykpie2jsqrtcx7dn2ep7illwe5tqu4uh66f2jwlm" type="video/mp4">
+        </video>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Header Section -->
+            <header class="main-header">
+                <h1 class="degen-title">JOKER'S ARENA</h1>
+                <div class="degen-tagline">Simple. Brutal. Degen.</div>
+            </header>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <img src="public/images/hero-joker-neon.png" alt="Joker" class="hero-joker">
+                <div class="betting-container">
+                    <div class="betting-box">
+                        <h3>YOUR BET</h3>
+                        <input type="number" id="userBet" placeholder="Enter amount (50,000 - 200,000)" min="50000" max="200000">
+                        <div class="bet-limits">
+                            <span>Min: 50,000</span>
+                            <span>Max: 200,000</span>
+                        </div>
+                    </div>
+                    <div class="betting-box joker-match">
+                        <h3>JOKER'S MATCH</h3>
+                        <div id="jokerMatch" class="match-amount">0</div>
+                    </div>
+                    <button class="roll-button" id="rollButton">
+                        <img src="public/images/btn-roll.png" alt="ROLL">
+                    </button>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section class="how-it-works">
+                <h2>HOW TO PLAY</h2>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <p>Select amount to gamble</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <p>Joker matches your stake automatically</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <p>Click "ROLL"</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <p>A random outcome determines the winner</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <p>Winner gets 100% of the pot</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Social Buttons -->
+            <div class="social-buttons">
+                <a href="https://t.me/JokersArenaPresale" target="_blank" class="social-btn">
+                    <img src="public/images/btn-telegram.png" alt="Telegram">
+                    <div class="button-glow"></div>
+                </a>
+                <a href="https://x.com/JokersArenaSol" target="_blank" class="social-btn">
+                    <img src="public/images/btn-x.png" alt="Twitter">
+                    <div class="button-glow"></div>
+                </a>
+            </div>
+
+            <section class="whitepaper">
+                <h2>📜 WHITEPAPER</h2>
+                
+                <div class="whitepaper-section">
+                    <h3>🎯 1. INTRODUCTION</h3>
+                    <p>Welcome to JOKER'S ARENA — the ultimate Solana battleground where luck, guts, and degen spirit collide.</p>
+                    <p>$JOKER isn't just a meme token. It's a digital dare. A high-stakes gamble where you're not just betting tokens — you're betting your fate.</p>
+                    <p>JOKER is the first Solana token with real gambling utility, where users can face off against the house (aka The Joker) in a 1v1 on-chain battle.</p>
+                </div>
+
+                <div class="whitepaper-section">
+                    <h3>🎿 2. WHAT IS $JOKER?</h3>
+                    <p>$JOKER is a Solana-based utility meme token powering an interactive, on-chain gambling game.</p>
+                    <div class="game-steps">
+                        <p>1. Stake your $JOKER tokens into the Joker's left hand</p>
+                        <p>2. The Joker (our house wallet) matches your bet in the right hand</p>
+                        <p>3. Click ROLL</p>
+                        <p>4. A randomized outcome determines the winner</p>
+                        <p>5. Winner takes all. Loser gets nothing.</p>
+                    </div>
+                    <p class="highlight">100% transparent. 100% on-chain. Zero middlemen. Just raw degen risk.</p>
+                </div>
+
+                <div class="whitepaper-section">
+                    <h3>✨ 3. PRESALE DETAILS</h3>
+                    <div class="presale-highlights">
+                        <p>🔥 Presale Supply: 500,000,000 $JOKER (50% of total supply)</p>
+                        <p>🌟 Raise Target: 5,800 SOL</p>
+                        <p>💸 Rate: 86,207 $JOKER per 1 SOL</p>
+                        <p>📅 Presale Start Date: 28.05.2025</p>
+                        <p>🌐 Network: Solana</p>
+                        <p>🎮 Access: Presale participants unlock game access at launch</p>
+                    </div>
+                    <div class="presale-usage">
+                        <h4>Presale funds will be used for:</h4>
+                        <ul>
+                            <li>Liquidity provisioning</li>
+                            <li>Gambling game deployment</li>
+                            <li>Token listings and initial marketing push</li>
+                        </ul>
+                    </div>
+                    <div class="bonus-utility">
+                        <h4>🧠 Bonus Utility:</h4>
+                        <p>Within one week of presale launch, we will release the Joker's Arena Raffle Bot — a custom interactive Telegram bot with exclusive raffles and prize draws. Only presale participants will have access.</p>
+                    </div>
+                </div>
+
+                <div class="whitepaper-section">
+                    <h3>🎰 4. THE GAMBLING GAME</h3>
+                    <p>Built into the official $JOKER website, the game lets you:</p>
+                    <div class="game-features">
+                        <ul>
+                            <li>Connect your wallet</li>
+                            <li>Stake any amount of $JOKER</li>
+                            <li>Joker matches your stake automatically</li>
+                            <li>Click ROLL</li>
+                            <li>An on-chain random outcome decides who wins</li>
+                        </ul>
+                    </div>
+                    <p class="highlight">The winner takes 100% of the pot (user stake + Joker stake).</p>
+                    <p>This is an always-on, self-contained, on-chain system. No house edge. Just courage and randomness.</p>
+                </div>
+
+                <div class="whitepaper-section">
+                    <h3>📆 5. ROADMAP</h3>
+                    <div class="roadmap">
+                        <div class="phase">
+                            <h4>PHASE 1: Foundation</h4>
+                            <ul>
+                                <li>Launch website</li>
+                                <li>Deploy token on Solana</li>
+                                <li>Setup community socials</li>
+                            </ul>
+                        </div>
+                        <div class="phase">
+                            <h4>PHASE 2: Presale</h4>
+                            <ul>
+                                <li>Launch presale for 500M tokens</li>
+                                <li>Marketing & partnerships</li>
+                                <li>Early supporter whitelisting</li>
+                            </ul>
+                        </div>
+                        <div class="phase">
+                            <h4>PHASE 3: Launch & Game</h4>
+                            <ul>
+                                <li>Launch token on DEX with liquidity</li>
+                                <li>Release on-chain gambling game</li>
+                                <li>Exclusive game access for presale buyers</li>
+                                <li>Release Joker's Arena Raffle Bot (presale-only access)</li>
+                            </ul>
+                        </div>
+                        <div class="phase">
+                            <h4>PHASE 4: Growth</h4>
+                            <ul>
+                                <li>Token listings (Birdeye, CoinGecko, etc)</li>
+                                <li>Leaderboards, prizes & statistics</li>
+                                <li>NFT skins for Joker, mobile UI upgrades</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="whitepaper-section">
+                    <h3>📊 6. TOKENOMICS</h3>
+                    <div class="tokenomics-table">
+                        <table>
+                            <tr>
+                                <th>Allocation</th>
+                                <th>Amount</th>
+                                <th>Percent</th>
+                            </tr>
+                            <tr>
+                                <td>Presale</td>
+                                <td>500,000,000</td>
+                                <td>50%</td>
+                            </tr>
+                            <tr>
+                                <td>Liquidity</td>
+                                <td>250,000,000</td>
+                                <td>25%</td>
+                            </tr>
+                            <tr>
+                                <td>Team (6mo lock)</td>
+                                <td>100,000,000</td>
+                                <td>10%</td>
+                            </tr>
+                            <tr>
+                                <td>Game Rewards</td>
+                                <td>100,000,000</td>
+                                <td>10%</td>
+                            </tr>
+                            <tr>
+                                <td>Marketing Reserve</td>
+                                <td>50,000,000</td>
+                                <td>5%</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="token-details">
+                        <p>Total Supply: 1,000,000,000 $JOKER</p>
+                        <p>Chain: Solana (SPL Token)</p>
+                        <p>Taxes: 0%</p>
+                        <p>Minting: Disabled</p>
+                        <p>Liquidity: Locked post-launch</p>
+                    </div>
+                </div>
+
+                <div class="whitepaper-section">
+                    <h3>🔒 7. SECURITY & FAIRNESS</h3>
+                    <ul class="security-list">
+                        <li>All game logic is on-chain</li>
+                        <li>No manual control of outcomes</li>
+                        <li>Randomness powered by oracle-based systems</li>
+                        <li>Joker wallet only matches, never takes advantage</li>
+                        <li>Game smart contract is public and verifiable</li>
+                    </ul>
+                </div>
+
+                <div class="whitepaper-section disclaimer">
+                    <h3>⚠️ 8. DISCLAIMER</h3>
+                    <p>$JOKER is a high-risk, high-reward, entertainment-first token. It should not be considered financial advice or investment-grade. This project is for degens, not financial advisors.</p>
+                    <p class="warning">Only play what you can afford to lose.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Result Popup -->
+        <div class="popup" id="resultPopup">
+            <div class="popup-content">
+                <video id="winVideo" class="result-video" style="display: none;">
+                    <source src="https://crimson-traditional-mastodon-846.mypinata.cloud/ipfs/bafkreiehkoxoz47uxjxaafocebmvgotjzqaeldcpekj6tadjqxo5aegsyi" type="video/mp4">
+                </video>
+                <video id="loseVideo" class="result-video" style="display: none;">
+                    <source src="https://crimson-traditional-mastodon-846.mypinata.cloud/ipfs/bafkreiefyqauh2kwnlso45jmhzj26gr6h3pmpulegnjkplvinq72w42n4y" type="video/mp4">
+                </video>
+                <button class="close-popup">×</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="public/js/app.js"></script>
+</body>
+</html> 
