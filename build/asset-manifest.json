@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e42e51d9.css",
+    "main.js": "/static/js/main.6f18897f.js",
+    "static/media/Joker Exploding  Freaking Out (When You Win).png": "/static/media/Joker Exploding  Freaking Out (When You Win).a499e6a415fc5dd0ecc8.png",
+    "static/media/resultpopupyouwin.png": "/static/media/resultpopupyouwin.63af1b4a00519cd63099.png",
+    "static/media/Main Joker Character (Idle Pose).png": "/static/media/Main Joker Character (Idle Pose).d143d60ae3e10b49156f.png",
+    "static/media/plansbackground.png": "/static/media/plansbackground.b8b97e107e68127a1b75.png",
+    "static/media/backtohome.png": "/static/media/backtohome.ca178eede2debb19996a.png",
+    "static/media/whitepaperbackground.png": "/static/media/whitepaperbackground.fddfe9d7778d11475cc3.png",
+    "static/media/fightthejokerbutton.png": "/static/media/fightthejokerbutton.b913517cb8f28db83a26.png",
+    "static/media/tokenomicsgraph.png": "/static/media/tokenomicsgraph.b83a0ef8f563c0685b71.png",
+    "static/media/Joker Laughing (When You Lose).png": "/static/media/Joker Laughing (When You Lose).f684a49295e4277a49f8.png",
+    "static/media/gamebackground.png": "/static/media/gamebackground.db29f530016ee9c811b0.png",
+    "static/media/resultpopupjokerwins.png": "/static/media/resultpopupjokerwins.5dda941ea2aa680c6f6a.png",
+    "static/media/back.png": "/static/media/back.3bb75b3f9f7de8cba406.png",
+    "static/media/next.png": "/static/media/next.90f1bd371d19be7f8751.png",
+    "static/media/bg intro.mp4": "/static/media/bg intro.b1f3f2e19816613f2116.mp4",
+    "index.html": "/index.html",
+    "main.e42e51d9.css.map": "/static/css/main.e42e51d9.css.map",
+    "main.6f18897f.js.map": "/static/js/main.6f18897f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e42e51d9.css",
+    "static/js/main.6f18897f.js"
+  ]
+}
